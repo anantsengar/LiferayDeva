@@ -1,0 +1,55 @@
+version: '3'
+services:
+  portal:
+    image: glassofwhiskey/liferay-portal:7.0-ce-ga7-dev
+#    image: liferay-portal:devsession
+    networks:
+      - lfrnet
+    ports:
+      - "8000:8000"
+      - "8080:8080" 
+      - "11311:11311"
+    volumes:
+      - liferay-document-library:/usr/local/liferay-ce-portal-7.0-ga7/data/document_library
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/osgi/configs:/usr/local/liferay-ce-portal-7.0-ga7/osgi/configs
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/deploy:/usr/local/liferay-ce-portal-7.0-ga7/deploy
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/osgi/marketplace:/usr/local/liferay-ce-portal-7.0-ga7/osgi/marketplace
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/osgi/modules:/usr/local/liferay-ce-portal-7.0-ga7/osgi/modules
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/portal-ext.properties:/usr/local/liferay-ce-portal-7.0-ga7/portal-ext.properties
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/bundles/osgi/war:/usr/local/liferay-ce-portal-7.0-ga7/osgi/war
+  db:
+    image: mysql:5.7.24
+    environment:
+      MYSQL_ROOT_PASSWORD: p4ssword
+    networks:
+      - lfrnet
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - /Users/anantsengar/Liferay/eclipse-workspace/Dev_Liferay/docker/mysql-init-scripts:/docker-entrypoint-initdb.d
+  elasticsearch:
+    image: glassofwhiskey/elasticsearch:2.4
+    environment: 
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    networks:
+      - lfrnet
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastisearch-data:/usr/share/elasticsearch/data
+#  kibana:
+#    image: kibana:4.6
+#    networks:
+#      - lfrnet
+#    ports:
+#      - "5601:5601"
+networks:
+  lfrnet:
+volumes:
+  db-data:
+  elastisearch-data:
+  liferay-document-library:
+  
