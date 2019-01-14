@@ -29,7 +29,7 @@
 /bundles/osgi/modules/*.jar
 /bundles/.liferay-home
 ####Heavy Files more than 100mb beyond GIT limit
-/bundles/osgi/marketplace/**
+/bundles/osgi/marketplace/*lpkg
 .blade
 
 /gradle-*.properties
