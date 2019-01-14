@@ -1,0 +1,4 @@
+Bundle-Name: DevaPortlet
+Bundle-SymbolicName: DevaPortlet
+Bundle-Version: 1.0.0
+Export-Package: DevaPortlet.constants
